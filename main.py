@@ -15,7 +15,7 @@ from pydantic import Field
 # FastAPI
 
 from fastapi import FastAPI,status
-from fastapi import Body
+from fastapi import Body, Form
 
 
 app = FastAPI()
@@ -69,6 +69,7 @@ class Tweet(BaseModel):
 
 # Path Operations 
 
+
 ## Users
 
 
@@ -111,8 +112,6 @@ def signup(user:UserRegister = Body(...)):
         return user
 
 
-
-
 ### Login a User
 
 @app.post(
@@ -123,7 +122,7 @@ def signup(user:UserRegister = Body(...)):
     tags= ['Users'],
 )
 
-def login():
+def Login():
     pass
 
 
@@ -217,7 +216,26 @@ def update_an_user():
     tags= ['Tweets'],
     )
 def home():
-    return {'Twitter API': 'Working' }
+    '''
+    
+    This path opration shows all tweets in the app
+
+    Parameters:
+        -
+
+    Returns a json list with all tweets in the app, with the following keys:
+
+        tweet_id: UUID 
+        content: str 
+        created_at: datetime 
+        updated_at: Optional [datetime]
+        by: User 
+    
+    '''
+
+    with open('tweets.json', 'r', encoding='utf-8' ) as f:
+        results = json.loads(f.read())
+        return results
 
 
 ### Post a Tweet
